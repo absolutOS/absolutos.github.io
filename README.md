@@ -16,7 +16,7 @@
       <li>Welcome screen</li>
       <li>runbox (alt + r)</li>
       <li>ver (via runbox)</li>
-      <li>masgboz (via runbox (type "asdasdds"))</li>
+      <li>msgbox (via runbox (type "asdasdds"))</li>
     </ul>
   <li>API:</li>
     <ul>
