@@ -28,3 +28,5 @@
 </ul>
 <h2>Design:</h2>
 <p>Transparent dark with blur design (something like Mica) + ease-out animations</p>
+<h2>Video:</h2>
+<video src="./src/md/video.mp4" autoplay controls width="100%"></video>
