@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class='loadingblock'>
+            <div>
+                <h1 id='test'>absolutOS</h1>
+            </div>
+            <div class='loadinganim'>
+                <p id='p1'>.</p>
+                <p id='p2'>.</p>
+                <p id='p3'>.</p>
+                <p id='p4'>.</p>
+            </div>
+        </div>
+    </body>
+    <script>
+
+        function rand(min, max) {
+          return Math.floor(Math.random() * (max - min) + min);
+        }
+
+        var arr = ['https://my-wallpapers.github.io/my-wallpapers/Flowers.jpg', 'https://my-wallpapers.github.io/my-wallpapers/Flower.jpg', 'https://my-wallpapers.github.io/my-wallpapers/Sunset.jpg']
+
+        setTimeout(function(){
+            var img = document.createElement('img');
+            img.src = arr[rand(0, 3)];
+            img.onload = function(){window.location.href = '/pages/lockscreen'};
+        }, 1000)
+    </script>
+</html>

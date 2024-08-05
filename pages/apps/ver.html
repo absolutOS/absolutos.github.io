@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <title>ver.exe</title>
+    </head>
+    <body>
+        <div style="display: grid; grid-template-rows: 1fr 1fr; width: 100%; height: 100%;">
+            <div style="user-select: none;">
+                <div class="container" style="text-align: center;">
+                    <h1 style="font-weight: 300;">absolutOS</h1>
+                    <p style="font-family: 'consolas', monospace;">ver: 0.0.1B</p>
+                </div>
+            </div>
+            <div style="display: flex;gap: 15px;align-items: flex-end;justify-content: flex-end;margin-right: 5px;margin-bottom: 5px;">
+                <button class="API_CLOSEAPP">OK</button>
+            </div>
+        </div>
+    </body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            padding: 5px;
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            width: calc(100vw - 10px);
+            height: calc(100vh - 10px);
+        }
+
+        div div:not(.container) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        input {
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid gray;
+            border-radius: 0;
+            outline: 0;
+            color: white;
+            padding: 5px;
+        }
+
+        button {
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid gray;
+            border-radius: 0;
+            outline: 0;
+            color: white;
+            min-width: 80px;
+            padding: 5px 10px;
+            transition: border-color 250ms ease-out;
+        }
+
+        button:hover {
+            border-color: white;
+        }
+    </style>
+    <script src="/script/process.js"></script>
+    <script>
+        function run(){
+            process.open(document.getElementById('input').value);
+            document.getElementById('closebutton').click()
+        }
+    </script>
+</html>

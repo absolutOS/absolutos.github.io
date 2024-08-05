@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="fade"></div>
+        <div class="lockscreen">
+            <div class="container">
+                <h1 id="clock">00:00</h1>
+            </div>
+        </div>
+        <div class="login hide" id="login">
+            <div class="container">
+                <h1>User</h1>
+                <button id="button" onclick="enter()">Login</button>
+            </div>
+        </div>
+    </body>
+    <script src="/script/clock.js"></script>
+    <script>
+
+        var isshowed = false;
+        var isloading = true;
+
+        document.addEventListener('keydown', function(e){
+            if (e.key != 'Escape' && e.key != 'Backspace' && !isshowed){
+                document.getElementById('clock').classList.add('hide');
+                document.getElementById('login').classList.remove('hide');
+                isshowed = true;
+                setTimeout(function(){isloading = false;}, 500);
+            }
+            if (e.key == 'Escape' && isshowed){
+                document.getElementById('clock').classList.remove('hide');
+                document.getElementById('login').classList.add('hide');
+                isshowed = false;
+                var audio = document.createElement('audio');
+                audio.src = '/src/media/exit.wav';
+                audio.play();
+            }
+            if ((e.key == 'Enter' || e.key == 'Space') && isshowed && !isloading){
+                isloading = true;
+                enter();
+            }
+        })
+
+        function enter(){
+            document.getElementById('button').classList.add('load')
+            document.getElementById('button').textContent = 'Loading settings...'
+            setTimeout(function(){window.location.href = '/pages/desktop/';}, 1000);
+        }
+    </script>
+</html>

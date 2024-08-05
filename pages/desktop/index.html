@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="style.css">
+        <script>
+            function maximize(el) {
+                el.classList.add('resized');
+                element.maximize(document.getElementById('window0'))
+                setTimeout(function(){el.classList.remove('resized')}, 250)
+            }
+    
+            function closewindow(el){
+                element.close(el);
+            }
+        </script>
+    </head>
+    <body>
+        <div class="loadscreen">
+            <div class="container"></div>
+        </div>
+        <div class="desktop">
+            <div class="taskbar">
+                <div class="left">
+                    <div class="starticon" id="startbutton">
+                      <img src="/src/icons/start.svg" width="25px" />
+                    </div>
+                </div>
+                <div class="icons">
+                    <div class="icon appactive" id="iconwindow0">
+                      <img src="/src/icons/exe.svg" width="25px"/>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="time">
+                      <div class="clock" id="clock">0000</div>
+                      <div class="date" id="date">000000</div>
+                    </div>
+                </div>
+                <div class="hideallbutton"></div>
+            </div>
+        </div>
+        <div class="windows">
+            <div class="window" id="window0" isMaximized="false" style="top: calc(50% - 300px); left: calc(50% - 400px); z-index: 999; width: 800px; height: 600px;">
+              <div class="windowtitle" id="window0title">
+                <div class="windowheader" id="window0header">
+                    Welcome
+                </div>
+                <div class="buttons">
+                    <div class="button" id="minimize"><img id="window0minimize" src="/src/icons/minimize.svg"></div>
+                    <div class="button" onclick="maximize(document.getElementById('window0'))" id="maximize"><img id="window0maximize" src="/src/icons/maximize.svg"></div>
+                    <div class="button" onclick="closewindow(document.getElementById('window0'))" id="close"><img id="window0close" src="/src/icons/close.svg"></div>
+                </div>
+              </div>
+              <div class="content" style="padding: 5px; text-align: center;">
+                <h1 style="font-weight: 300; margin-top: 10px;">absolutOS</h1>
+                <p>Welcome to home.</p>
+                <h1 style="font-weight: 300; margin-top: 10px;">available things:</h1>
+                <p>runbox (alt+r)</p>
+                <p>ver (via runbox)</p>
+                <p>error message (via runbox (type "ijsfdhjlsaddhosk;fkj"))</p>
+              </div>
+            </div>
+        </div>
+    </body>
+    <script src="/script/clock.js"></script>
+    <script src="/script/windowManager.js"></script>
+    <script src="/script/process.js"></script>
+    <script src="/script/programs.js"></script>
+    <script>
+        element.drag(document.getElementById('window0'));
+        document.addEventListener('keydown', function(e){
+            if (e.altKey && e.key == 'r'){
+                process.open(programs.system.runbox);
+            }
+        })
+
+        localStorage.setItem('windowsID', 1);
+
+        var audio = document.createElement('audio');
+        audio.src = '/src/media/login.wav';
+        audio.play();
+    </script>
+</html>
