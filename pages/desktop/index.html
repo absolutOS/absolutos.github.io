@@ -6,7 +6,7 @@
         <script>
             function maximize(el) {
                 el.classList.add('resized');
-                element.maximize(document.getElementById('window0'))
+                element.maximize(el)
                 setTimeout(function(){el.classList.remove('resized')}, 250)
             }
     
@@ -19,10 +19,40 @@
         <div class="loadscreen">
             <div class="container"></div>
         </div>
+        <div class="switcher hide" id="switcher">
+            <div class="box">
+                <div class="icon" winID="0" onclick="switchertoggle(); element.active(document.getElementById('window0')); taskbar.active(document.getElementById('window0').id.replace('window', ''));">
+                    <img src="/src/icons/exe.svg" width="70px">
+                    <p>Welcome</p>
+                </div>
+            </div>
+        </div>
         <div class="desktop">
+            <div class="startmenu" id="startmenu">
+                <div class="container">
+                    <div class="grid">
+                        <div class="app" onclick="start(); process.open(programs.system.ver);">
+                            <img src="/src/icons/exe.svg" width="50px">
+                            <p>ver</p>
+                        </div>
+                        <div class="app" onclick="start(); process.open(programs.system.runbox);">
+                            <img src="/src/icons/exe.svg" width="50px">
+                            <p>runbox</p>
+                        </div>
+                        <div class="app" onclick="start(); process.open(programs.other.welcome);">
+                            <img src="/src/icons/exe.svg" width="50px">
+                            <p>Welcome</p>
+                        </div>
+                        <div class="app" onclick="start(); process.open(programs.system.design);">
+                            <img src="/src/icons/exe.svg" width="50px">
+                            <p>design</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="taskbar">
                 <div class="left">
-                    <div class="starticon" id="startbutton">
+                    <div class="starticon" id="startbutton" onclick="start()">
                       <img src="/src/icons/start.svg" width="25px" />
                     </div>
                 </div>
@@ -41,7 +71,7 @@
             </div>
         </div>
         <div class="windows">
-            <div class="window" id="window0" isMaximized="false" style="top: calc(50% - 300px); left: calc(50% - 400px); z-index: 999; width: 800px; height: 600px;">
+            <div class="window active resizable" id="window0" isMaximized="false" style="top: calc(50% - 300px); left: calc(50% - 400px); z-index: 990; width: 800px; height: 624px; min-width: 800px; min-height: 624px;">
               <div class="windowtitle" id="window0title">
                 <div class="windowheader" id="window0header">
                     Welcome
@@ -52,17 +82,45 @@
                     <div class="button" onclick="closewindow(document.getElementById('window0'))" id="close"><img id="window0close" src="/src/icons/close.svg"></div>
                 </div>
               </div>
-              <div class="content" style="padding: 5px; text-align: center;">
-                <h1 style="font-weight: 300; margin-top: 10px;">absolutOS</h1>
-                <p>Welcome to home.</p>
+              <div class="content" style="padding: 5px; width: calc(100% - 10px); height: 100% - 10px;">
+                <h1 style="font-weight: 300; margin-top: 30px; text-align: center;">absolutOS</h1>
+                <p style="text-align: center;">Welcome to home.</p>
+                <hr>
                 <h1 style="font-weight: 300; margin-top: 10px;">available things:</h1>
-                <p>runbox (alt+r)</p>
-                <p>ver (via runbox)</p>
-                <p>error message (via runbox (type "ijsfdhjlsaddhosk;fkj"))</p>
+                <ul style="margin-left: 20px;">
+                    <li>Sounds</li>
+                    <li>Start menu</li>
+                    <li>App switcher (alt + s)</li>
+                    <li>Window:</li>
+                      <ul style="margin-left: 20px;">
+                        <li>Resize</li>
+                        <li>Move</li>
+                        <li>Maximize</li>
+                        <li>Close</li>
+                      </ul>
+                    <li>Apps:</li>
+                      <ul style="margin-left: 20px;">
+                        <li>Welcome screen</li>
+                        <li>runbox (alt + r)</li>
+                        <li>ver</li>
+                        <li>msgbox (via runbox (type "asdasdds"))</li>
+                        <li>design</li>
+                      </ul>
+                    <li>API:</li>
+                      <ul style="margin-left: 20px;">
+                        <li>SoundManager</li>
+                        <li>WindowManager</li>
+                        <li>Programs</li>
+                        <li>Process</li>
+                        <li>iframeLinkAPI</li>
+                      </ul>
+                  </ul>
               </div>
             </div>
         </div>
+        <div style="position: absolute; z-index: 9999; bottom: 40px; right: 0; text-align: right; user-select: none; pointer-events: none;">absolutOS<br>0.0.2B</div>
     </body>
+    <script src="/script/soundManager.js"></script>
     <script src="/script/clock.js"></script>
     <script src="/script/windowManager.js"></script>
     <script src="/script/process.js"></script>
@@ -72,13 +130,55 @@
         document.addEventListener('keydown', function(e){
             if (e.altKey && e.key == 'r'){
                 process.open(programs.system.runbox);
+            } else if (e.altKey && e.key == 's'){
+                switchertoggle();
+            } else if (e.key == 'Escape' && (!(document.getElementById('switcher').classList.contains('hide')) && !(document.getElementById('switcher').classList.contains('hideanim')))){
+                switchertoggle();
             }
         })
 
         localStorage.setItem('windowsID', 1);
 
-        var audio = document.createElement('audio');
-        audio.src = '/src/media/login.wav';
-        audio.play();
+        sound.play(sound.get.login);
+
+        var startmenu = document.getElementById('startmenu');
+        var switcher =  document.getElementById('switcher');
+
+        function start(){
+            if (startmenu.classList.contains('open')){
+                startmenu.classList.remove('open');
+                startmenu.classList.add('close');
+                document.getElementById('startbutton').classList.remove('appactive');
+                element.active(element.last());
+                taskbar.active(element.last().id.replace('window', ''));
+            } else if (startmenu.classList.contains('close')) {
+                startmenu.classList.remove('close');
+                startmenu.classList.add('open');
+                document.getElementById('startbutton').classList.add('appactive');
+                taskbar.inactiveall();
+                element.inactiveall();
+            } else {
+                startmenu.classList.add('open');
+                document.getElementById('startbutton').classList.add('appactive');
+                taskbar.inactiveall();
+                element.inactiveall();
+            }
+        }
+
+        function switchertoggle(){
+            if (switcher.classList.contains('hide')){
+                switcher.classList.remove('hide');
+                taskbar.inactiveall();
+                element.inactiveall();
+            } else if (switcher.classList.contains('hideanim')) {
+                switcher.classList.remove('hideanim');
+                taskbar.inactiveall();
+                element.inactiveall();
+            } else {
+                switcher.classList.add('hideanim');
+                element.active(element.last());
+                taskbar.active(element.last().id.replace('window', ''));
+            }
+        }
     </script>
 </html>

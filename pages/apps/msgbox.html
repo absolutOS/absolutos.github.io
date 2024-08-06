@@ -13,7 +13,7 @@
                 <span id="text">ERR</span>
             </div>
             <div style="grid-column: 1 / 3; display: flex; gap: 15px; align-items: center; justify-content: flex-end; margin-right: 5px;">
-                <button class="API_CLOSEAPP">OK</button>
+                <button class="API_CLOSEAPP" id="closebutton">OK</button>
             </div>
         </div>
     </body>
@@ -66,6 +66,7 @@
         }
     </style>
     <script src="/script/process.js"></script>
+    <script src="/script/soundManager.js"></script>
     <script>
         const params = new URLSearchParams(document.location.search);
         const msg = params.get("msg");
@@ -73,8 +74,13 @@
         document.getElementById('text').textContent = msg;
 
 
-        var audio = document.createElement('audio');
-        audio.src = '/src/media/error.wav';
-        audio.play();
+        sound.play(sound.get.error);
+    </script>
+    <script>
+        document.addEventListener('keydown', function(e){
+            if (e.key == 'Enter'){
+                document.getElementById('closebutton').click();
+            }
+        })
     </script>
 </html>

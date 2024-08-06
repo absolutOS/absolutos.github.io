@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+*::-webkit-resizer {
+    background-color: rgba(0, 0, 0, 0);
+}
+
 body {
     color: white;
     font-family: 'Segoe UI', sans-serif;
@@ -110,7 +114,7 @@ body {
     box-sizing: border-box;
     overflow: hidden;
     position: fixed;
-    box-shadow: 0px 0px 10px -1px rgba(0, 0, 0, 0.45);
+    box-shadow: 0px 0px 10px -1px rgba(0, 0, 0, 0.2);
     animation: windowopen 500ms cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
@@ -201,8 +205,13 @@ body {
     height: 100%;
 }
 
-.activewin {
-    z-index: 99;
+.window.active {
+    z-index: 999 !important;
+    box-shadow: 0px 0px 10px -1px rgba(0, 0, 0, 0.45);
+}
+
+.window.active.resizable {
+    resize: both;
 }
 
 .icons {
@@ -250,4 +259,162 @@ body {
 
 .appactive:hover {
     background-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.startmenu {
+    position: absolute;
+    z-index: 9999;
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.521);
+    width: 100%;
+    height: calc(100% - 40px);
+    top: 0;
+    left: 0;
+    opacity: 0;
+    user-select: none;
+    pointer-events: none;
+}
+
+.startmenu.open {
+    animation: startopen 500ms cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+    opacity: 1;
+    user-select: auto;
+    pointer-events: all;
+}
+
+.startmenu.close {
+    animation: startclose 500ms cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+    user-select: none;
+    pointer-events: none;
+    opacity: 1;
+}
+
+@keyframes startopen {
+    from {filter: opacity(0) blur(10px);}
+}
+
+@keyframes startclose {
+    from {filter: opacity(1) blur(0px);}
+    to {filter: opacity(0) blur(10px);}
+}
+
+hr {
+    border-color: rgba(255, 255, 255, 0.2);
+    border-width: 1px;
+    border-style: solid;
+    margin: 10px 0;
+}
+
+.startmenu .container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes startcontainer {
+    from {filter: opacity(0); transform: scale(0.7);}
+}
+
+@keyframes startcontainerclose {
+    from {filter: opacity(1); transform: scale(1);}
+    to {filter: opacity(0); transform: scale(0.7);}
+}
+
+.startmenu.open .container {
+    animation: startcontainer 500ms cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+}
+
+.startmenu.close .container {
+    animation: startcontainerclose 500ms cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+}
+
+.startmenu .container .grid {
+    width: 70%;
+    height: 80%;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+}
+
+.startmenu .container .grid .app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    user-select: none;
+    transition: background-color 250ms ease-out;
+}
+
+.startmenu .container .grid .app:hover {
+    background-color: rgba(0, 0, 0, 0.45);
+}
+
+.switcher {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    background-color: rgba(0, 0, 0, 0.521);
+    backdrop-filter: blur(10px);
+    animation: switchershow 250ms ease-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes switchershow {
+    from {filter: opacity(0) blur(10px);}
+}
+
+.switcher.hideanim {
+    animation: switcherclose 250ms ease-out;
+    filter: opacity(0) blur(10px);
+    user-select: none;
+    pointer-events: none;
+}
+
+@keyframes switcherclose {
+    from {filter: opacity(1) blur(0px);}
+}
+
+.switcher .box {
+    display: flex;
+    align-items: center;
+}
+
+.switcher .box .icon {
+    max-width: 134px;
+    max-height: 151px;
+    user-select: none;
+    padding: 25px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background-color 250ms ease-out;
+}
+
+.switcher .box .icon p {
+    max-width: 70px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.switcher .box .icon.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.switcher .box .icon:not(.icon.active):hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.switcher.hide {
+    display: none;
 }

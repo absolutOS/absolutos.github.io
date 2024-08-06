@@ -6,6 +6,7 @@ const programs = {
             width: '430px',
             height: '205px',
             title: 'Run',
+            resizable: false,
             buttons: {
                 close: true,
                 resize: false,
@@ -18,6 +19,7 @@ const programs = {
             width: '460px',
             height: '210px',
             title: 'absolutOS version',
+            resizable: false,
             buttons: {
                 close: true,
                 resize: false,
@@ -30,14 +32,42 @@ const programs = {
             width: '560px',
             height: '150px',
             title: 'Error',
+            resizable: false,
             buttons: {
                 close: true,
                 resize: false,
                 minimize: false
             }
+        },
+        design: {
+            src: '/pages/apps/design.html',
+            iconsrc: '/src/icons/exe.svg',
+            width: '560px',
+            height: '508px',
+            title: 'Design test',
+            resizable: true,
+            buttons: {
+                close: true,
+                resize: true,
+                minimize: true
+            }
         }
     },
-    other: {}
+    other: {
+        welcome: {
+            src: '/pages/apps/welcome.html',
+            iconsrc: '/src/icons/exe.svg',
+            width: '800px',
+            height: '624px',
+            title: 'Welcome',
+            resizable: true,
+            buttons: {
+                close: true,
+                resize: true,
+                minimize: true
+            }
+        }
+    }
 }
 
 // TEST RUN APP
@@ -49,6 +79,9 @@ function searchprograms(input){
         break;
         case 'runbox':
             return programs.system.runbox;
+        break;
+        case 'design':
+            return programs.system.design;
         break;
         default:
             return [programs.system.msgbox, `Program '${input}' not found`];

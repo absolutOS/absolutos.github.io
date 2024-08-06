@@ -18,17 +18,12 @@
         </div>
     </body>
     <script>
-
-        function rand(min, max) {
-          return Math.floor(Math.random() * (max - min) + min);
-        }
-
-        var arr = ['https://my-wallpapers.github.io/my-wallpapers/Flowers.jpg', 'https://my-wallpapers.github.io/my-wallpapers/Flower.jpg', 'https://my-wallpapers.github.io/my-wallpapers/Sunset.jpg']
-
         setTimeout(function(){
             var img = document.createElement('img');
-            img.src = arr[rand(0, 3)];
-            img.onload = function(){window.location.href = '/pages/lockscreen'};
+            img.src = '/src/bg/i.png';
+            img.onload = function(){
+                window.location.href = '/pages/lockscreen';
+            };
         }, 1000)
     </script>
 </html>

@@ -9,14 +9,14 @@ function popen(elmnt) {
     }
 
     document.querySelector('.windows').insertAdjacentHTML('beforeend', `
-        <div class="window" id="window${num}" isMaximized="false" style="top: 15px; left: 15px; z-index: 999; width: ${elmnt.width}; height: ${elmnt.height};">
+        <div class="window ${elmnt.resizable ? "resizable" : ""}" id="window${num}" isMaximized="false" style="top: 15px; left: 15px; z-index: 990; width: ${elmnt.width}; height: ${elmnt.height}; min-width: ${elmnt.width}; min-height: ${elmnt.height};">
             <div class="windowtitle" id="window${num}title">
               <div class="windowheader" id="window${num}header">
                   ${elmnt.title}
               </div>
               <div class="buttons">
                   <div class="button ${elmnt.buttons.minimize ? "" : "inactive"}" id="minimize"><img id="window${num}minimize" src="/src/icons/minimize.svg"></div>
-                  <div class="button ${elmnt.buttons.sixe ? "" : "inactive"}" onclick="maximize(document.getElementById('window${num}'))" id="maximize"><img id="window${num}maximize" src="/src/icons/maximize.svg"></div>
+                  <div class="button ${elmnt.buttons.resize ? "" : "inactive"}" onclick="maximize(document.getElementById('window${num}'))" id="maximize"><img id="window${num}maximize" src="/src/icons/maximize.svg"></div>
                   <div class="button ${elmnt.buttons.close ? "" : "inactive"}" onclick="closewindow(document.getElementById('window${num}'))" id="close"><img id="window${num}close" src="/src/icons/close.svg"></div>
               </div>
             </div>
@@ -39,7 +39,15 @@ function popen(elmnt) {
         </div>
     `)
 
+    document.querySelector('.box').insertAdjacentHTML('beforeend', `
+        <div class="icon" winID="${num}" onclick="switchertoggle(); element.active(document.getElementById('window${num}')); taskbar.active(document.getElementById('window${num}').id.replace('window', ''));">
+            <img src="${elmnt.iconsrc}" width="70px">
+            <p>${elmnt.title}</p>
+        </div>
+    `)
+
     taskbar.active(num);
+    element.active(document.getElementById('window'+num));
 }
 
 

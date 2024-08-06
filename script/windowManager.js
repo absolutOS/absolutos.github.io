@@ -1,3 +1,5 @@
+var lastactive = document.getElementById('window0');
+
 try {
   window.localStorage.getItem('windowsID')
 } catch (e) {
@@ -14,6 +16,19 @@ function dragElement(elmnt) {
   }
 
   function dragMouseDown(e) {
+    if (!tisactive(elmnt.id.replace('window', ''))){
+        tactive(elmnt.id.replace('window', ''));
+        activeElement(elmnt);
+    }
+    e = e || window.event;
+    e.preventDefault();
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
     var attr = elmnt.getAttribute('isMaximized');
     if (attr == 'true') {
         var props = window.localStorage.getItem(`_TEMP_${elmnt.id}pos`).split('_');
@@ -27,15 +42,6 @@ function dragElement(elmnt) {
             console.error(e)
         }
     }
-    e = e || window.event;
-    e.preventDefault();
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    document.onmousemove = elementDrag;
-  }
-
-  function elementDrag(e) {
     e = e || window.event;
     e.preventDefault();
     pos1 = pos3 - e.clientX;
@@ -53,6 +59,10 @@ function dragElement(elmnt) {
 }
 
 function maximizeElement(elmnt){
+    if (!tisactive(elmnt.id.replace('window', ''))){
+      activeElement(elmnt);
+      tactive(elmnt.id.replace('window', ''))
+    }
     var attr = elmnt.getAttribute('isMaximized');
     if (attr == 'true'){
         var props = window.localStorage.getItem(`_TEMP_${elmnt.id}pos`).split('_');
@@ -82,12 +92,31 @@ function closeElement(elmnt){
   if (document.getElementById('icon'+elmnt.id).classList.contains('appactive'))
     document.getElementById('icon'+elmnt.id).classList.remove('appactive');
   document.getElementById('icon'+elmnt.id).classList.add('closedicon');
+  document.getElementById('switcher').querySelector(`.icon[winID="${elmnt.id.replace('window', '')}"]`).remove();
   setTimeout(function(){
     document.getElementById('icon'+elmnt.id).remove();
     elmnt.remove();
   }, 500);
-  if (document.querySelectorAll('.window')[document.querySelectorAll('.window').length - 2])
+  if (document.querySelectorAll('.window')[document.querySelectorAll('.window').length - 2]) {
     tactive(document.querySelectorAll('.window')[document.querySelectorAll('.window').length - 2].id.replace('window', ''));
+    activeElement(document.querySelectorAll('.window')[document.querySelectorAll('.window').length - 2]);
+  }
+}
+
+function activeElement(elmnt){
+  try {
+    inactiveElement();
+    elmnt.classList.add('active');
+    lastactive = elmnt;
+    document.getElementById('switcher').querySelector(`.icon[winID="${elmnt.id.replace('window', '')}"]`).classList.add('active');
+  } catch (e) {
+    console.log('Non-critical error.', e)
+  }
+}
+
+function inactiveElement(){
+  document.getElementById('switcher').querySelectorAll('.icon').forEach(function(e){e.classList.remove('active')});
+  document.querySelectorAll('.window').forEach(function(e){e.classList.remove('active')});
 }
 
 function tinactive(){
@@ -95,14 +124,26 @@ function tinactive(){
 }
 
 function tactive(elmntID){
-  tinactive();
-  document.getElementById('iconwindow'+elmntID).classList.add('appactive');
+  try {
+    tinactive();
+    document.getElementById('iconwindow'+elmntID).classList.add('appactive');
+  } catch (e){
+    console.log('Non-critical error.')
+  }
 }
+
+function tisactive(elmntID){
+  return document.getElementById('iconwindow'+elmntID).classList.contains('appactive');
+}
+
 
 const element = {
     maximize: (e) => {maximizeElement(e)},
     drag: (e) => {dragElement(e)},
-    close: (e) => {closeElement(e)}
+    close: (e) => {closeElement(e)},
+    active: (e) => {activeElement(e)},
+    inactiveall: () => {inactiveElement()},
+    last: () => {return lastactive}
 }
 
 const taskbar = {

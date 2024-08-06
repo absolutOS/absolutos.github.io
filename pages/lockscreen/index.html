@@ -19,6 +19,7 @@
         </div>
     </body>
     <script src="/script/clock.js"></script>
+    <script src="/script/soundManager.js"></script>
     <script>
 
         var isshowed = false;
@@ -35,9 +36,7 @@
                 document.getElementById('clock').classList.remove('hide');
                 document.getElementById('login').classList.add('hide');
                 isshowed = false;
-                var audio = document.createElement('audio');
-                audio.src = '/src/media/exit.wav';
-                audio.play();
+                sound.play(sound.get.exit);
             }
             if ((e.key == 'Enter' || e.key == 'Space') && isshowed && !isloading){
                 isloading = true;

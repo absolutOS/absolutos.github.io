@@ -1,0 +1,94 @@
+<html>
+    <head>
+        <title>design.exe</title>
+    </head>
+    <body>
+        <div style="width: 100%; height: 100%;">
+            <input autocomplete="off"></input>
+            <button>Button1</button> <button>Button2</button>
+            <p>hr:</p>
+            <hr>
+            <h1>Big text (h1)</h1>
+            <h2>Text (h2)</h2>
+            <h3>Smaller text (h3)</h3>
+            <h4>Small text (h4)</h4>
+            <p>Default text</p>
+            <a href="#">link</a>
+            <hr>
+            <h1>Icon set:</h1>
+            <br>
+            <img src="/src/icons/error.svg" width="32px"> <img src="/src/icons/exe.svg" width="32px"> <img src="/src/icons/start.svg" width="32px">
+            <hr>
+            <h1>Sounds set:</h1>
+            <br>
+            <button id="s1">Error</button> <button id="s2">Login</button> <button id="s3">Exit</button>
+        </div>
+    </body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            padding: 5px;
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            width: calc(100vw - 10px);
+            height: calc(100vh - 10px);
+        }
+
+        input {
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid gray;
+            border-radius: 0;
+            outline: 0;
+            color: white;
+            padding: 5px;
+        }
+
+        button {
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid gray;
+            border-radius: 0;
+            outline: 0;
+            color: white;
+            min-width: 80px;
+            padding: 5px 10px;
+            transition: border-color 250ms ease-out;
+        }
+
+        button:hover {
+            border-color: white;
+        }
+
+        hr {
+            border-color: rgba(255, 255, 255, 0.2);
+            border-width: 1px;
+            border-style: solid;
+            margin: 10px 0;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 300;
+        }
+
+        a {
+            color: rgba(255, 255, 255, 0.5);
+            transition: font-weight 250ms ease-out, filter 250ms ease-out;
+            filter: drop-shadow(0 0 0.1rem rgba(255, 255, 255, 0.363));
+        }
+
+        a:hover {
+            font-weight: bold;
+            filter: drop-shadow(0 0 0.5rem rgba(255, 255, 255, 0.7));
+        }
+    </style>
+    <script src="/script/process.js"></script>
+    <script src="/script/soundManager.js"></script>
+    <script>
+        document.getElementById('s1').onclick = function(){sound.play(sound.get.error)};
+        document.getElementById('s2').onclick = function(){sound.play(sound.get.login)};
+        document.getElementById('s3').onclick = function(){sound.play(sound.get.exit)};
+    </script>
+</html>
